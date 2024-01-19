@@ -1,0 +1,15 @@
+.bg-header {
+  background-color: hsl(216, 68%, 17%);
+}
+::ng-deep .home-container {
+  .nav-mobile {
+    box-shadow: none !important;
+    // position: none !important;
+  }
+  .mat-drawer-backdrop{
+    position: relative !important;
+  }
+  .mat-drawer-content{
+    background-color: white !important;
+  }
+}

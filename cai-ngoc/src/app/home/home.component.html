@@ -1,0 +1,58 @@
+<div
+  class="flex bg-header h-24"
+  [ngClass]="{ 'justify-between p-1': !breakpointCheck }"
+>
+  <ng-container *ngIf="!breakpointCheck">
+    <!-- <div class="side-nav flex justify-center items-center w-1/2">
+      <app-side-nav></app-side-nav>
+    </div> -->
+    <div
+      *ngIf="!this.isIconMenu"
+      mat-raised-button
+      (click)="openMenu($event); drawer.toggle()"
+      class="w-10 absolute top-7"
+    >
+      <img src="../../assets/icon_menu.svg" alt="" class="w-10" />
+    </div>
+  </ng-container>
+  <div class="logo w-64 flex items-center justify-center">
+    <img src="../../assets/logo.svg" alt="" />
+  </div>
+  <ng-container *ngIf="breakpointCheck">
+    <div class="side-nav flex justify-center items-center w-1/2">
+      <app-side-nav [breakpointCheck]="breakpointCheck"></app-side-nav>
+    </div>
+  </ng-container>
+
+  <div class="notication flex justify-end items-center gap-3 w-1/3">
+    <div class="icon-search cursor-pointer">
+      <img src="../../assets/icon_search.svg" alt="" />
+    </div>
+    <div class="icon-user cursor-pointer">
+      <img src="../../assets/icon_user.svg" alt="" />
+    </div>
+    <div class="icon-heart cursor-pointer">
+      <img src="../../assets/icon_heart.svg" alt="" />
+    </div>
+    <div class="icon-cart cursor-pointer">
+      <img src="../../assets/icon_cart.svg" alt="" />
+    </div>
+  </div>
+</div>
+
+
+<mat-drawer-container class="home-container h-3/4 bg-none" [ngStyle]=" !breakpointCheck ? {}:{'display': 'none'}">
+  <mat-drawer
+    #drawer
+    class="h-lvh bg-header relative none shadow-none nav-mobile"
+  >
+    <div class="w-6 absolute right-0 z-50 cursor-pointer">
+      <img
+        src="../../assets/icon_close.svg"
+        alt=""
+        (click)="openMenu($event); drawer.toggle()"
+      />
+    </div>
+    <app-side-nav [breakpointCheck]="breakpointCheck"></app-side-nav>
+  </mat-drawer>
+</mat-drawer-container>
