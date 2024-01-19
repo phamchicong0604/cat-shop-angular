@@ -1,0 +1,135 @@
+<ng-container *ngIf="breakpointCheck">
+  <nav class="side-nav flex">
+    <ul class="flex gap-5">
+      <li class="flex" *ngFor="let content of sidenavContents">
+        <ng-container *ngIf="content.items; else link">
+          <a
+            class="cursor-pointer"
+            #button
+            [matMenuTriggerFor]="menu"
+            #levelOneTrigger="matMenuTrigger"
+            (mouseenter)="openMenu(levelOneTrigger)"
+            (mouseleave)="closeMenu(levelOneTrigger, button)"
+            style="z-index: 1050"
+          >
+            <span class="menu-responsive-font text-white font-semibold">{{
+              content.name
+            }}</span>
+            <!-- <hr class="hidden hover:block "> -->
+          </a>
+          <mat-menu #menu="matMenu" direction="down" yPosition="below">
+            <!-- Your menu content goes here -->
+            <div
+              (mouseenter)="menuenter()"
+              (mouseleave)="menuLeave(levelOneTrigger, button)"
+              class="h-96 w-full"
+            >
+              <ul class="flex flex-wrap flex-col h-full p-3">
+                <li *ngFor="let item of content.items" class="w-1/3">
+                  <span class="font-semibold text-lg">{{ item.name }}</span>
+                  <ul class="pl-1">
+                    <li *ngFor="let child of item.children">
+                      <a
+                        href="#"
+                        class="hover:text-blue-900 cursor-pointer text-sm"
+                        >{{ child.name }}</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </mat-menu>
+        </ng-container>
+        <ng-template #link>
+          <a class="cursor-pointer" #button style="z-index: 1050">
+            <span
+              class="menu-responsive-font text-white font-semibold hover:text-red-50"
+              >{{ content.name }}</span
+            >
+            <!-- <hr class="hidden hover:block "> -->
+          </a>
+        </ng-template>
+      </li>
+    </ul>
+  </nav>
+</ng-container>
+<ng-container *ngIf="!breakpointCheck">
+  <nav class="w-80 gap-2" style="z-index: 999; height: 100%">
+    <mat-nav-list class="pt-5">
+      <mat-list-item class="list-item">
+        <ng-container
+          *ngFor="
+            let content of sidenavContents;
+            let i = index;
+            let isLast = last
+          "
+        >
+          <ng-container *ngIf="!content.items">
+            <a
+              [routerLink]="content.navLink"
+              class="text-white text-2xl cursor-pointer hover:bg-sky-700"
+            >
+              {{ content.name }}
+            </a>
+          </ng-container>
+          <ng-container *ngIf="content.items">
+            <mat-accordion class="text-white text-2xl cursor-pointer flex">
+              <mat-expansion-panel class="expansion-panel">
+                <mat-expansion-panel-header class="panel-header">
+                  {{ content.name }}
+                  <img src="../../../assets/icon_down.svg" alt="" />
+                </mat-expansion-panel-header>
+                <ng-container *ngFor="let child of content.items">
+                  <mat-nav-list class="pt-5">
+                    <mat-list-item class="list-item">
+                      <ng-container *ngIf="!child.children">
+                        <a
+                          [routerLink]="content.navLink"
+                          class="text-white text-2xl cursor-pointer hover:bg-sky-700"
+                        >
+                          {{ child.name }}
+                        </a>
+                      </ng-container>
+                      <ng-container *ngIf="child.children">
+                        <mat-accordion
+                          class="text-white text-2xl cursor-pointer flex"
+                        >
+                          <mat-expansion-panel class="expansion-panel">
+                            <mat-expansion-panel-header class="panel-header">
+                              {{ child.name }}
+                              <img src="../../../assets/icon_down.svg" alt="" />
+                            </mat-expansion-panel-header>
+
+                            <mat-nav-list class="pt-5">
+                              <mat-list-item class="list-item">
+                                <ng-container
+                                  *ngFor="
+                                    let value of child.children;
+                                    let i = index;
+                                    let isLast = last
+                                  "
+                                >
+                                  <a
+                                    [routerLink]="value.navLink"
+                                    class="text-white text-2xl cursor-pointer hover:bg-sky-700"
+                                  >
+                                    {{ value.name }}
+                                  </a>
+                                </ng-container>
+                              </mat-list-item>
+                            </mat-nav-list>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                      </ng-container>
+                    </mat-list-item>
+                  </mat-nav-list>
+                </ng-container>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </ng-container>
+        </ng-container>
+      </mat-list-item>
+    </mat-nav-list>
+  </nav>
+</ng-container>
